@@ -109,12 +109,16 @@ STATUS_HTML = """<!DOCTYPE html>
         <div class="link" id="no_auto_run" >No Auto Run Next Reboot</div>
     </div>
     <script>
-    document.querySelector('#check-update').addEventListener('click', (e) => {
+    document.querySelector('#reset').addEventListener('click', (e) => {
         e.preventDefault();
-        fetch('/system?action=check_update', { method: 'GET' })
+        let userInput = prompt('Please type "RESET" to update the machine');
+        
+        if (userInput!=='RESET') return;
+        
+        fetch('/system?action=reset', { method: 'GET' })
             .then(response=>response.text())
             .then(text=>{
-            document.querySelector('#update-info').innerText=text;
+                alert('Machine will be reset shortly')
             })
     });
     

@@ -106,11 +106,11 @@ def check_and_create_file(action):
     if f'{action}.txt' not in os.listdir():
         with open(f'{action}.txt', 'w') as f:
             f.write('')  # or write some initial content
-        print("✅ File created.")
-        return "✅ File created."
+        print(f"✅ File {action}.txt created.")
+        return f"✅ File {action}.txt created."
     else:
-        print("ℹ️ File already exists.")
-        return "ℹ️ File already exists."
+        print(f"ℹ️ File {action}.txt already exists.")
+        return f"ℹ️ File {action}.txt already exists."
 
 @app.route('/system')
 async def system_manipulation(request):
