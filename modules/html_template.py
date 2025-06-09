@@ -152,7 +152,7 @@ STATUS_HTML = """<!DOCTYPE html>
     document.querySelector('#update-info').addEventListener('click', (e) => {
         let force_update='';
         if (document.querySelector('#update-info').innerText.includes('No new')){
-            force_update='force update';
+            force_update='FORCE';
         }
         let userInput = prompt(`Please type "UPDATE" to ${force_update} update the machine`);
         
