@@ -84,8 +84,8 @@ STATUS_HTML = """<!DOCTYPE html>
         body { min-height: 100vh; display: flex; justify-content: center; align-items: center; background: linear-gradient(135deg, #3498db, #2980b9); padding: 20px; }
         .container { background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); max-width: 400px; width: 100%; text-align: center; }
         h1 { color: #333; margin-bottom: 1.5rem; }
-        .info { background: #f8f9fa; padding: 1rem; border-radius: 5px; margin: 1rem 0; color: #2c3e50; font-size: 1.1rem; word-break: break-all; }
-        .link { margin-top: 1rem; display: block; color: #2c3e50; text-decoration: none; padding: 0.5rem; border-radius: 5px; transition: background 0.3s; }
+        .info { background: #f8f9fa; padding: 0.5rem; border-radius: 5px; color: #2c3e50; word-break: break-all; }
+        .link { display: block; color: #2c3e50; text-decoration: none; padding: 0.5rem; border-radius: 5px; transition: background 0.3s; }
         .link:hover { background: #f0f0f0; }
         button { width: 100%; padding: 0.8rem; background: #667eea; border: none; border-radius: 5px; color: white; font-size: 1rem; cursor: pointer; transition: background 0.3s; }
         button:hover { background: #764ba2; }
@@ -93,7 +93,7 @@ STATUS_HTML = """<!DOCTYPE html>
         legend{padding-left:10px;padding-right:10px;}
         .info-group {display: flex; flex-direction: column; gap: 1rem; } 
         .update-section {margin-top: 1.5rem; } 
-        .action-links {margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.5rem; }
+        .action-links {margin-top: 1.5rem; display: flex; flex-direction: column; }
     </style>
 </head>
 <body>
