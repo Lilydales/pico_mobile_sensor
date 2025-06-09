@@ -119,7 +119,7 @@ STATUS_HTML = """<!DOCTYPE html>
         fetch('/system?action=check_update', { method: 'GET' })
             .then(response=>response.text())
             .then(text=>{
-            document.querySelector('#update-info').innerText=text;
+            document.querySelector('#update-info').innerHTML=text;
             })
     });
     
