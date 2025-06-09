@@ -116,6 +116,7 @@ STATUS_HTML = """<!DOCTYPE html>
     <script>
     document.querySelector('#check-update').addEventListener('click', (e) => {
         e.preventDefault();
+        document.querySelector('#update-info').innerHTML='Checking version...';
         fetch('/system?action=check_update', { method: 'GET' })
             .then(response=>response.text())
             .then(text=>{
