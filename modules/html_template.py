@@ -100,7 +100,7 @@ STATUS_HTML = """<!DOCTYPE html>
         <div class="info">Connection Status: {{ status }}</div>
         <div id="update-status" class="info">
             <button id="check-update">Check Update</button>
-            <div id="update-info"></div>
+            <div id="update-info" style="cursor:pointer;"></div>
         </div>
         <a href="/" class="link">Back to Home</a>
         <a href="/config" class="link">Change Wi-Fi Configuration</a>
@@ -114,6 +114,28 @@ STATUS_HTML = """<!DOCTYPE html>
             .then(text=>{
             document.querySelector('#update-info').innerText=text;
             })
+    });
+    
+    document.querySelector('#update-info').addEventListener('click', (e) => {
+        let userInput = prompt('Please type "UPDATE" to update the machine');
+        
+        if (userInput=="UPDATE"){
+            fetch('/system?action=to_be_updated', { method: 'GET' })
+                .then(response=>response.text())
+                .then(text=>{
+                    console.log(text);
+                    fetch('/system?action=reset', { method: 'GET' })
+                        .then(response=>response.text())
+                        .then(text=>{
+                            console.log('Machine will be reset.');
+                        })
+                })
+            
+        }else{
+            alert('Machine will not be updated')
+        };
+    
+    
     });
     </script>
 </body>
