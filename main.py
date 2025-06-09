@@ -194,6 +194,7 @@ async def status(request):
         status_html = STATUS_HTML.replace('{{ ip_address }}', wifi_manager.ip_address)
         status_html = status_html.replace('{{ ssid }}', wifi_config['ssid'] if wifi_config else 'Unknown')
         status_html = status_html.replace('{{ status }}', 'Connected')
+        status_html = status_html.replace('{{ version }}', f'Current version: {ota_updater.current_version}')
         return Response(body=status_html, headers={'Content-Type': 'text/html'})
     return Response(status=404)
 
@@ -235,6 +236,7 @@ async def main():
                     print("Machine will be updated")
                     update=ota_updater.download_and_install_update_if_available('to_be_updated.txt')
                     if 'No new updates available' in update:
+                        print('Removing to_be_update file...')
                         os.remove('to_be_updated.txt')
                 
                 #Set up mqtt connection

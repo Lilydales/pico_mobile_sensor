@@ -89,7 +89,7 @@ STATUS_HTML = """<!DOCTYPE html>
         .link:hover { background: #f0f0f0; }
         button { width: 100%; padding: 0.8rem; background: #667eea; border: none; border-radius: 5px; color: white; font-size: 1rem; cursor: pointer; transition: background 0.3s; }
         button:hover { background: #764ba2; }
-        fieldset{border-radius:10px;.link{margin-top:0,cursor:pointer;}}
+        fieldset{border-radius:10px;.link{margin-top:0;cursor:pointer;}}
         legend{padding-left:10px;padding-right:10px;}
     </style>
 </head>
@@ -102,7 +102,7 @@ STATUS_HTML = """<!DOCTYPE html>
         <div class="info">Connection Status: {{ status }}</div>
         <div id="update-status" class="info">
             <button id="check-update">Check Update</button>
-            <div id="update-info" style="cursor:pointer;"></div>
+            <div id="update-info" style="cursor:pointer;">{{ version }}</div>
         </div>
         <a href="/" class="link">Back to Home</a>
         <a href="/config" class="link">Change Wi-Fi Configuration</a>
