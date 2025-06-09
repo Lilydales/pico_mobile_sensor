@@ -106,12 +106,21 @@ STATUS_HTML = """<!DOCTYPE html>
         <a href="/config" class="link">Change Wi-Fi Configuration</a>
         <a href="/control" class="link">Control Dash Board</a>
         <fieldset>
-        <legend>Advance Setting</legend>
-        <div class="link" id="reset" >Reset Device</div>
-        <div class="link" id="no_auto_run" >No Auto Run Next Reboot</div>
+            <legend>Advance Setting</legend>
+            <div class="link" id="reset" >Reset Device</div>
+            <div class="link" id="no_auto_run" >No Auto Run Next Reboot</div>
         </fieldset>
     </div>
     <script>
+    document.querySelector('#check-update').addEventListener('click', (e) => {
+        e.preventDefault();
+        fetch('/system?action=check_update', { method: 'GET' })
+            .then(response=>response.text())
+            .then(text=>{
+            document.querySelector('#update-info').innerText=text;
+            })
+    });
+    
     document.querySelector('#reset').addEventListener('click', (e) => {
         e.preventDefault();
         let userInput = prompt('Please type "RESET" to update the machine');
@@ -160,8 +169,6 @@ STATUS_HTML = """<!DOCTYPE html>
         }else{
             alert('Machine will not be updated')
         };
-    
-    
     });
     </script>
 </body>
