@@ -89,7 +89,7 @@ STATUS_HTML = """<!DOCTYPE html>
         .link:hover { background: #f0f0f0; }
         button { width: 100%; padding: 0.8rem; background: #667eea; border: none; border-radius: 5px; color: white; font-size: 1rem; cursor: pointer; transition: background 0.3s; }
         button:hover { background: #764ba2; }
-        fieldset{border-radius:10px;.link{margin-top:0,cursor:pointer;};}
+        fieldset{border-radius:10px;.link{margin-top:0,cursor:pointer;}}
         legend{padding-left:10px;padding-right:10px;}
     </style>
 </head>
