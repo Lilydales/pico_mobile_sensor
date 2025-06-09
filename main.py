@@ -191,10 +191,11 @@ async def configure_wifi(request):
 async def status(request):
     if wifi_manager.connected_to_wifi:
         wifi_config = wifi_manager.load_wifi_config()
+        check_update=OTAUpdater(firmware_url)
         status_html = STATUS_HTML.replace('{{ ip_address }}', wifi_manager.ip_address)
         status_html = status_html.replace('{{ ssid }}', wifi_config['ssid'] if wifi_config else 'Unknown')
         status_html = status_html.replace('{{ status }}', 'Connected')
-        status_html = status_html.replace('{{ version }}', f'Current version: {ota_updater.current_version}')
+        status_html = status_html.replace('{{ version }}', f'Current version: {check_update.current_version}')
         return Response(body=status_html, headers={'Content-Type': 'text/html'})
     return Response(status=404)
 
