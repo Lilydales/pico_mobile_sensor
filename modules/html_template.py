@@ -92,7 +92,8 @@ STATUS_HTML = """<!DOCTYPE html>
         fieldset{border-radius:10px;.link{margin-top:0;cursor:pointer;}}
         legend{padding-left:10px;padding-right:10px;}
         .info-group {display: flex; flex-direction: column; gap: 1rem; } 
-        .update-section {margin-top: 1.5rem; } 
+        .update-section {margin-top: 1.5rem; }
+        #update-info{cursor:pointer;}
         .action-links {margin-top: 1.5rem; display: flex; flex-direction: column; }
     </style>
 </head>
