@@ -105,6 +105,8 @@ STATUS_HTML = """<!DOCTYPE html>
         <a href="/" class="link">Back to Home</a>
         <a href="/config" class="link">Change Wi-Fi Configuration</a>
         <a href="/control" class="link">Control Dash Board</a>
+        <div class="link" id="reset" >Reset Device</div>
+        <div class="link" id="no_auto_run" >No Auto Run Next Reboot</div>
     </div>
     <script>
     document.querySelector('#check-update').addEventListener('click', (e) => {
@@ -117,6 +119,10 @@ STATUS_HTML = """<!DOCTYPE html>
     });
     
     document.querySelector('#update-info').addEventListener('click', (e) => {
+        if (document.querySelector('#update-info').innerText.includes('No new')){
+            alert ('No update available')
+            return
+        }
         let userInput = prompt('Please type "UPDATE" to update the machine');
         
         if (userInput=="UPDATE"){
