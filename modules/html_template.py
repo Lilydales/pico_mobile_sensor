@@ -105,8 +105,11 @@ STATUS_HTML = """<!DOCTYPE html>
         <a href="/" class="link">Back to Home</a>
         <a href="/config" class="link">Change Wi-Fi Configuration</a>
         <a href="/control" class="link">Control Dash Board</a>
+        <fieldset>
+        <legend>Advance Setting</legend>
         <div class="link" id="reset" >Reset Device</div>
         <div class="link" id="no_auto_run" >No Auto Run Next Reboot</div>
+        </fieldset>
     </div>
     <script>
     document.querySelector('#reset').addEventListener('click', (e) => {
@@ -122,12 +125,25 @@ STATUS_HTML = """<!DOCTYPE html>
             })
     });
     
+    document.querySelector('#no_auto_run').addEventListener('click', (e) => {
+        e.preventDefault();
+        let userInput = prompt('The machine will not auto run next time, and it will only be accessible via USB cable. Please type "NO AUTO" to continue.');
+        
+        if (userInput!=='NO AUTO') return;
+        
+        fetch('/system?action=no_auto_run', { method: 'GET' })
+            .then(response=>response.text())
+            .then(text=>{
+                alert('Machine will not auto run next time.')
+            })
+    });
+    
     document.querySelector('#update-info').addEventListener('click', (e) => {
+        let force_update='';
         if (document.querySelector('#update-info').innerText.includes('No new')){
-            alert ('No update available')
-            return
+            force_update='force update';
         }
-        let userInput = prompt('Please type "UPDATE" to update the machine');
+        let userInput = prompt(`Please type "UPDATE" to ${force_update} update the machine`);
         
         if (userInput=="UPDATE"){
             fetch('/system?action=to_be_updated', { method: 'GET' })
