@@ -91,26 +91,41 @@ STATUS_HTML = """<!DOCTYPE html>
         button:hover { background: #764ba2; }
         fieldset{border-radius:10px;.link{margin-top:0;cursor:pointer;}}
         legend{padding-left:10px;padding-right:10px;}
+        .info-group {display: flex; flex-direction: column; gap: 1rem; } 
+        .update-section {margin-top: 1.5rem; } 
+        .action-links {margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.5rem; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Device Status</h1>
-        <div class="info">IP Address: {{ ip_address }}</div>
-        <div class="info">Wi-Fi SSID: {{ ssid }}</div>
-        <div class="info">Connection Status: {{ status }}</div>
-        <div id="update-status" class="info">
-            <button id="check-update">Check Update</button>
-            <div id="update-info" style="cursor:pointer;">{{ version }}</div>
+
+        <!-- Device Info Section -->
+        <div class="info-group">
+            <div class="info">IP Address: {{ ip_address }}</div>
+            <div class="info">Wi-Fi SSID: {{ ssid }}</div>
+            <div class="info">Connection Status: {{ status }}</div>
         </div>
+
+        <!-- Update Section -->
+        <div class="update-section info">
+            <button id="check-update">Check Update</button>
+            <div id="update-info">{{ version }}</div>
+        </div>
+
+        <!-- Advanced Options -->
         <fieldset>
-            <legend>Advance Setting</legend>
-            <div class="link" id="reset" >Reset Device</div>
-            <div class="link" id="no_auto_run" >No Auto Run Next Reboot</div>
+            <legend>Advanced Settings</legend>
+            <div class="link" id="reset">Reset Device</div>
+            <div class="link" id="no_auto_run">No Auto Run Next Reboot</div>
         </fieldset>
-        <a href="/" class="link">Back to Home</a>
-        <a href="/config" class="link">Change Wi-Fi Configuration</a>
-        <a href="/control" class="link">Control Dash Board</a>
+
+        <!-- Action Links -->
+        <div class="action-links">
+            <a href="/" class="link">Back to Home</a>
+            <a href="/config" class="link">Change Wi-Fi Configuration</a>
+            <a href="/control" class="link">Control Dashboard</a>
+        </div>
     </div>
     <script>
     document.querySelector('#check-update').addEventListener('click', (e) => {
