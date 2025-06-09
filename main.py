@@ -125,7 +125,8 @@ async def system_manipulation(request):
         if action=='reset':
             machine.reset()
         if action=='check_update':
-            response='New version is available.' if ota_updater.check_for_updates() else 'No new updates available.'
+            check_update=OTAUpdater(firmware_url)
+            response='New version is available.' if check_update.check_for_updates() else 'No new updates available.'
             return Response(body=response)
             
             
