@@ -99,19 +99,18 @@ STATUS_HTML = """<!DOCTYPE html>
         <div class="info">IP Address: {{ ip_address }}</div>
         <div class="info">Wi-Fi SSID: {{ ssid }}</div>
         <div class="info">Connection Status: {{ status }}</div>
-        <div class="info">Connection Status: {{ status }}</div>
         <div id="update-status" class="info">
             <button id="check-update">Check Update</button>
             <div id="update-info" style="cursor:pointer;">{{ version }}</div>
         </div>
-        <a href="/" class="link">Back to Home</a>
-        <a href="/config" class="link">Change Wi-Fi Configuration</a>
-        <a href="/control" class="link">Control Dash Board</a>
         <fieldset>
             <legend>Advance Setting</legend>
             <div class="link" id="reset" >Reset Device</div>
             <div class="link" id="no_auto_run" >No Auto Run Next Reboot</div>
         </fieldset>
+        <a href="/" class="link">Back to Home</a>
+        <a href="/config" class="link">Change Wi-Fi Configuration</a>
+        <a href="/control" class="link">Control Dash Board</a>
     </div>
     <script>
     document.querySelector('#check-update').addEventListener('click', (e) => {
