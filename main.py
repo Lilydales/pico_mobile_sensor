@@ -4,6 +4,7 @@ import time
 import dht
 from machine import Pin, Timer
 from umqtt.MqttPublisher import MqttPublisher
+from ota.ota import OTAUpdater
 from microdot import Microdot, Response
 from modules.wifi_support import WiFiManager
 from modules.html_template import SUCCESS_HTML,CONFIG_HTML,STATUS_HTML,CONTROL_HTML
@@ -14,6 +15,10 @@ from modules.ha_connection import update_state_entity
 # Initialize Microdot app (async version)
 app = Microdot()
 
+#Initiate Updater
+firmware_url = "https://raw.githubusercontent.com/Lilydales/pico_mobile_sensor/"
+ota_updater = OTAUpdater(firmware_url)
+                    
 # --------- Configuration ---------
 MQTT_BROKER = "192.168.86.52"  # IP of your Home Assistant / MQTT broker
 MQTT_PORT = 1883
@@ -83,7 +88,6 @@ async def update_area_brightness_to_HA(interval=5):
         update_state_entity(entity,updated_data)
         await asyncio.sleep(interval)    
     
-    
 # Web routes (now async)
 @app.route('/')
 async def index(request):
@@ -98,6 +102,33 @@ async def index(request):
     return Response(body=CONFIG_HTML.replace('{{ status_message }}', status_message).replace('{{ ssid }}', ssid_message),
                     headers={'Content-Type': 'text/html'})
 
+def check_and_create_file(action):
+    if f'{action}.txt' not in os.listdir():
+        with open(f'{action}.txt', 'w') as f:
+            f.write('')  # or write some initial content
+        print("✅ File created.")
+        return "✅ File created."
+    else:
+        print("ℹ️ File already exists.")
+        return "ℹ️ File already exists."
+
+@app.route('/system')
+async def system_manipulation(request):
+    if request.method == 'GET':
+        action = request.args.get('action','')
+        if action=='no_auto_run':
+            response=check_and_create_file(action)
+            return Response(body=response)
+        if action=='to_be_updated':
+            response=check_and_create_file(action)
+            return Response(body=response)
+        if action=='reset':
+            machine.reset()
+        if action=='check_update':
+            response='New version is available.' if ota_updater.check_for_updates() else 'No new updates available.'
+            return Response(body=response)
+            
+            
 # Initialize RGB LED controller
 rgb_controller = RGBLEDController()
 
@@ -193,6 +224,17 @@ async def main():
             print("Found Wi-Fi configuration, attempting to connect...")
             connected, ip_address = await wifi_manager.connect_to_wifi(wifi_config["ssid"], wifi_config["password"])
             if connected:
+                #Check if the file no_auto_run.txt is exist, if yes then turn off the machine
+                if 'no_auto_run.txt' in os.listdir():
+                    print("No auto run command found. Shut down...")
+                    machine.disable_irq()
+                    return
+                #Check if the file to_be_updated.txt is exist, if yes then update the machine
+                if 'to_be_updated.txt' in os.listdir():
+                    print("Machine will be updated")
+                    ota_updater.download_and_install_update_if_available('to_be_updated.txt')
+                    return
+                
                 #Set up mqtt connection
                 mqtt = MqttPublisher(MQTT_CONFIG)
                 print("Starting success page server...")

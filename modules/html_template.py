@@ -21,7 +21,7 @@ SUCCESS_HTML = """<!DOCTYPE html>
         <h1>Wi-Fi Connected!</h1>
         <div class="ip-address">IP Address: {{ ip_address }}</div>
         <div class="status">Your Pico W is now connected to the network</div>
-        <a href="/status" class="link">Check Connection Status</a>
+        <a href="/status" class="link">Check System Status</a>
         <a href="/config" class="link">Change Wi-Fi Configuration</a>
         <a href="/control" class="link">Control Dash Board</a>
     </div>
@@ -87,6 +87,8 @@ STATUS_HTML = """<!DOCTYPE html>
         .info { background: #f8f9fa; padding: 1rem; border-radius: 5px; margin: 1rem 0; color: #2c3e50; font-size: 1.1rem; word-break: break-all; }
         .link { margin-top: 1rem; display: block; color: #2c3e50; text-decoration: none; padding: 0.5rem; border-radius: 5px; transition: background 0.3s; }
         .link:hover { background: #f0f0f0; }
+        button { width: 100%; padding: 0.8rem; background: #667eea; border: none; border-radius: 5px; color: white; font-size: 1rem; cursor: pointer; transition: background 0.3s; }
+        button:hover { background: #764ba2; }
     </style>
 </head>
 <body>
@@ -95,10 +97,25 @@ STATUS_HTML = """<!DOCTYPE html>
         <div class="info">IP Address: {{ ip_address }}</div>
         <div class="info">Wi-Fi SSID: {{ ssid }}</div>
         <div class="info">Connection Status: {{ status }}</div>
+        <div class="info">Connection Status: {{ status }}</div>
+        <div id="update-status" class="info">
+            <button id="check-update">Check Update</button>
+            <div id="update-info"></div>
+        </div>
         <a href="/" class="link">Back to Home</a>
         <a href="/config" class="link">Change Wi-Fi Configuration</a>
         <a href="/control" class="link">Control Dash Board</a>
     </div>
+    <script>
+    document.querySelector('#check-update').addEventListener('click', (e) => {
+        e.preventDefault();
+        fetch('/system?action=check_update', { method: 'GET' })
+            .then(response=>response.text())
+            .then(text=>{
+            document.querySelector('#update-info').innerText=text;
+            })
+    });
+    </script>
 </body>
 </html>"""
 
@@ -137,7 +154,7 @@ CONTROL_HTML = """<!DOCTYPE html>
         </form>
         <a href="/" class="link">Back to Home</a>
         <a href="/config" class="link">Change Wi-Fi Configuration</a>
-        <a href="/control" class="link">Control Dash Board</a>
+        <a href="/status" class="link">Check System Status</a>
     </div>
     
     <script>
