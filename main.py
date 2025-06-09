@@ -233,8 +233,9 @@ async def main():
                 #Check if the file to_be_updated.txt is exist, if yes then update the machine
                 if 'to_be_updated.txt' in os.listdir():
                     print("Machine will be updated")
-                    ota_updater.download_and_install_update_if_available('to_be_updated.txt')
-                    return
+                    update=ota_updater.download_and_install_update_if_available('to_be_updated.txt')
+                    if 'No new updates available' in update:
+                        os.remove('to_be_updated.txt')
                 
                 #Set up mqtt connection
                 mqtt = MqttPublisher(MQTT_CONFIG)
