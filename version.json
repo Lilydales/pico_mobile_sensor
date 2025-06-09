@@ -1,3 +1,6 @@
 {
-  "version":1
+  "version":1.1,
+  "filenames": [
+	"modules/ha_connection.py"
+  ]
 }
