@@ -69,7 +69,7 @@ async def start_pir_sensor():
     # Wait for the task to complete
     await task
 
-async def update_area_brightness_to_HA(interval=5):
+async def update_area_brightness_to_HA(mqtt,interval=5):
     sensor = PhotocellSensor(adc_pin=26, fixed_resistor=10000,voltage=5)            
     
     while True:
@@ -239,7 +239,7 @@ async def main():
                 mqtt = MqttPublisher(MQTT_CONFIG)
                 print("Starting success page server...")
                 asyncio.create_task(start_pir_sensor())
-                asyncio.create_task(update_area_brightness_to_HA(interval=10))
+                asyncio.create_task(update_area_brightness_to_HA(mqtt,interval=10))
                 asyncio.create_task(pushlishing_temp_humid_mqtt(mqtt,interval=30))
                 await app.run(port=80)
                 return

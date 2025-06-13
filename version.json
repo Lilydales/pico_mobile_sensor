@@ -1,5 +1,5 @@
 {
-  "version":2.8,
+  "version":2.9,
   "filenames": [
 	"modules/ha_connection.py",
 	"modules/html_template.py",
