@@ -73,19 +73,14 @@ async def update_area_brightness_to_HA(interval=5):
     sensor = PhotocellSensor(adc_pin=26, fixed_resistor=10000,voltage=5)            
     
     while True:
-        lux=sensor.get_lux_value()
-        print("Current brightness:",lux)
-        entity="sensor.mobile_brightness_detector"
-        updated_data = {
-            "state": lux,
-            "attributes": {
-                "unit_of_measurement": "lx",
-                "state_class": "measurement",
-                "device_class": "illuminance"
-            }
-        }
-
-        update_state_entity(entity,updated_data)
+        try:
+            lux=sensor.get_lux_value()
+            print("Current brightness:",lux)
+            mqtt.publish("pico/sensor/brightnessdetector", {
+                "brightness": lux,
+            })
+        except OSError as e:
+            print("Sensor error:", e)
         await asyncio.sleep(interval)    
     
 # Web routes (now async)
