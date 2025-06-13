@@ -13,7 +13,7 @@ def toggle_entity(domain='light',entity='light.tv_light',action='toggle',timeout
     payload = {"entity_id": entity}
     
     try:
-        response = urequests.post(url, json=payload, headers=headers)
+        response = urequests.post(url, json=payload, headers=headers,timeout=timeout)
     except:
         print('Connection error!')
         response.close()
@@ -51,7 +51,7 @@ def update_state_entity(entity:str,update_data:dict,timeout: float = 2.0):
     payload = update_data
     
     try:
-       response = urequests.post(url, json=payload, headers=headers)
+       response = urequests.post(url, json=payload, headers=headers,timeout=timeout)
     except Exception as e:
         print('Connection error:',e)
         response.close()
