@@ -11,12 +11,12 @@ def toggle_entity(domain='light',entity='light.tv_light',action='toggle',timeout
     }
 
     payload = {"entity_id": entity}
-    
+    response= None
     try:
         response = requests.post(url, json=payload, headers=headers,timeout=timeout)
     except:
         print('Connection error!')
-        response.close()
+        if response: response.close()
         return
 
     if response.status_code == 200:
@@ -44,7 +44,7 @@ def update_state_entity(entity:str,update_data:dict,timeout: float = 2.0):
         "Authorization": f"{HA_AUTH}",
         "Content-Type": "application/json",
     }
-    
+    response= None
     if not isinstance(update_data,dict):
         print("Update data should be in dictionary format!")
         return
@@ -54,7 +54,7 @@ def update_state_entity(entity:str,update_data:dict,timeout: float = 2.0):
        response = requests.post(url, json=payload, headers=headers,timeout=timeout)
     except Exception as e:
         print('Connection error:',e)
-        response.close()
+        if response: response.close()
         return
 
     if response.status_code == 200:
