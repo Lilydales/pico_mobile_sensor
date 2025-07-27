@@ -62,10 +62,11 @@ async def run_mmWave_sensor(mqtt,interval=15):
             target_data = mmWave_sensor.get_target_data()  # Get target data
             state, moving_dist, moving_energy, stat_dist, stat_energy, detect_dist = target_data
             is_presence = 'on' if state > 0 else 'off'
+            inteprete_state =['No target detected', 'Stationary target detected', 'Moving target detected', 'Both stationary and moving']
             mqtt.publish("pico/sensor/mmWavesensor/state", {
-                "is_presence": is_presense,
+                "is_presence": is_presence,
                 "attributes": {
-                    "state": state,
+                    "current_state": inteprete_state[state],
                     "moving_dist": moving_dist,
                     "moving_energy": moving_energy,
                     "stat_dist": stat_dist,
@@ -303,5 +304,4 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
-
 
