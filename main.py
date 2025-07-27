@@ -4,6 +4,7 @@ import time
 import dht
 from machine import Pin, Timer
 from umqtt.MqttPublisher import MqttPublisher
+from ld2410.ld2410 import LD2410
 from ota.ota import OTAUpdater
 from microdot import Microdot, Response
 from modules.wifi_support import WiFiManager
@@ -35,9 +36,47 @@ MQTT_CONFIG={
 # --------- Set up DHT11 Sensor ---------
 sensor = dht.DHT11(Pin(17))
 
+# --------- Set up mmWave (ld2410) Sensor ---------
+TX_PIN = 4  # Example GPIO4 (TX)
+RX_PIN = 5  # Example GPIO5 (RX)
+
+uart = UART(1, baudrate=256000, tx=Pin(TX_PIN), rx=Pin(RX_PIN))
+mmWave_sensor=LD2410(uart)
+
+print("Initializing LD2410...")
+mmWave_sensor.enable_config()
+time.sleep(1)
+mmWave_sensor.set_max_values(moving_gate=5, stationary_gate=5, inactivity_time=15)
+
+time.sleep(0.5)
+mmWave_sensor.disable_config()  # Exit configuration mode
+
 # Create instance
 wifi_manager = WiFiManager()
 
+# Start mmWave sensor
+async def run_mmWave_sensor(mqtt,interval=15):
+    while True:
+        try:
+            mmWave_sensor.update()  # Update sensor data
+            target_data = mmWave_sensor.get_target_data()  # Get target data
+            state, moving_dist, moving_energy, stat_dist, stat_energy, detect_dist = target_data
+            is_presence = 'on' if state > 0 else 'off'
+            mqtt.publish("pico/sensor/mmWavesensor/state", {
+                "is_presence": is_presense,
+                "attributes": {
+                    "state": state,
+                    "moving_dist": moving_dist,
+                    "moving_energy": moving_energy,
+                    "stat_dist": stat_dist,
+                    "detect_dist": detect_dist
+                    }
+            })
+        except OSError as e:
+            print("Sensor error:", e)
+            
+        await asyncio.sleep(interval)
+        
 #Publish DHT11 Data
 async def pushlishing_temp_humid_mqtt(mqtt,interval=30):
     while True:
@@ -241,6 +280,7 @@ async def main():
                 asyncio.create_task(start_pir_sensor())
                 asyncio.create_task(update_area_brightness_to_HA(mqtt,interval=10))
                 asyncio.create_task(pushlishing_temp_humid_mqtt(mqtt,interval=30))
+                asyncio.create_task(run_mmWave_sensor(mqtt,interval=10))
                 await app.run(port=80)
                 return
         
