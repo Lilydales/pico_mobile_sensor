@@ -1,10 +1,8 @@
 {
-  "version":3.203,
+  "version":3.204,
   "filenames": [
 	"modules/ha_connection.py",
 	"modules/html_template.py",
-    "lib/umqtt/MqttPublisher.py",
-    "lib/ld2410/ld2410.py",
 	"main.py"
   ]
 }

@@ -281,7 +281,7 @@ async def main():
                 asyncio.create_task(start_pir_sensor())
                 asyncio.create_task(update_area_brightness_to_HA(mqtt,interval=10))
                 asyncio.create_task(pushlishing_temp_humid_mqtt(mqtt,interval=30))
-                asyncio.create_task(run_mmWave_sensor(mqtt,interval=10))
+                asyncio.create_task(run_mmWave_sensor(mqtt,interval=5))
                 await app.run(port=80)
                 return
         
