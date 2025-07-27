@@ -2,7 +2,7 @@ import asyncio
 import os
 import time
 import dht
-from machine import Pin, Timer
+from machine import Pin, Timer, UART
 from umqtt.MqttPublisher import MqttPublisher
 from ld2410.ld2410 import LD2410
 from ota.ota import OTAUpdater
