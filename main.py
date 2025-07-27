@@ -66,7 +66,7 @@ async def run_mmWave_sensor(mqtt,interval=15):
             mqtt.publish("pico/sensor/mmWavesensor/state", {
                 "is_presence": is_presence,
                 "attributes": {
-                    "current_state": inteprete_state[state],
+                    "current_status": inteprete_state[state],
                     "moving_dist": moving_dist,
                     "moving_energy": moving_energy,
                     "stat_dist": stat_dist,
