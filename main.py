@@ -46,7 +46,7 @@ mmWave_sensor=LD2410(uart)
 print("Initializing LD2410...")
 mmWave_sensor.enable_config()
 time.sleep(1)
-mmWave_sensor.set_max_values(moving_gate=5, stationary_gate=5, inactivity_time=15)
+mmWave_sensor.set_max_values(moving_gate=5, stationary_gate=8, inactivity_time=15)
 
 time.sleep(0.5)
 mmWave_sensor.disable_config()  # Exit configuration mode
